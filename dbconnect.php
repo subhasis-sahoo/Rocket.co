@@ -6,7 +6,7 @@
 
     $conn = new mysqli($HOST, $USERNAME, $PASSWORD, $DB_NAME);
 
-    if($conn->connect_error) {
-        die($conn->connect_error);
+    if($con->connect_error) {
+        die($con->connect_error);
     }
 ?>
