@@ -9,7 +9,7 @@
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $c_password = $_POST['c_password'];
+    $c_password = $_POST['cPassword'];
 
     
 
@@ -18,22 +18,36 @@
     require_once "functions.php";
 
     if($user == 'jobseeker') {
-        echo "Hello Jobseeker.";
+        // echo "Hello Jobseeker.";
+        $response = isJobseekerExists($email);
+        if($response) {
+            // echo "yes";
+            $data = ['isExists' => 'yes', 'user' => $user];
+            echo json_encode($data);
+        } else {
+            // echo "$username, $email, $password";
+            $status = addJobseeker($username, $email, $password);
+            if($status) {
+                $data = ['isExists' => 'no', 'user' => $user];
+                echo json_encode($data);
+                $_SESSION['user'] = $user;
+                $_SESSION['email'] = $email;
+            }
+        }
     } else {
         // echo "Hello Recruiter.";
-        $response = isUserExists($email, $password);
+        $response = isRecruiterExists($email);
         if($response) {
-            $data = ['isExists' => 'yes'];
+            $data = ['isExists' => 'yes', 'user' => $user];
             echo json_encode($data);
         } else {
             // echo "$username, $email, $password";
             $status = addRecruiter($username, $email, $password);
             if($status) {
-                $data = ['isExists' => 'no'];
+                $data = ['isExists' => 'no', 'user' => $user];
                 echo json_encode($data);
-
-                
                 $_SESSION['user'] = $user;
+                $_SESSION['email'] = $email;
             }
         }
 

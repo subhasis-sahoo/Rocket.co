@@ -1,11 +1,12 @@
 <?php
 include_once "navbar.php";
 
-if(!isset($_SESSION['email'])) {
-    header("location:sign_up.php");
-}
-
 require "functions.php";
+// $email = $_SESSION['email'];
+// $result = getJobseekerDataByEmail($email);
+// $data1 = $result->fetch_assoc();
+// $uid = $data1['uid'];
+// $userName = $data1['name'];
 $res = getAllJob();
 ?>
 
@@ -36,10 +37,10 @@ $res = getAllJob();
                 </div>
                 <div class="card-footer p-3 d-flex flex-row justify-content-between">
                     <div class="my-auto">
-                        <p class="mb-0">No. of Applications: <span>34</span></p>
+                        <p class="mb-0">Status: <span>pending</span></p>
                     </div>
                     <div>
-                        <button class="btn btn-primary btn-sm px-3" disabled><a href="#" class="text-white text-decoration-none">Apply</a></button>
+                        <button class="btn btn-primary btn-sm px-3"><a href="apply_job.php?jid=<?php echo $data['jid']?>" class="text-white text-decoration-none">Apply</a></button>
                     </div>
                 </div>
             </div>
@@ -52,5 +53,3 @@ $res = getAllJob();
 <?php
     include_once "footer.php"
 ?>
-
-

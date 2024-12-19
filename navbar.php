@@ -28,26 +28,22 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto gap-4">
-              <!-- <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-              <a class="nav-link" href="#services">Services</a>
-              <a class="nav-link" href="#reviews">Reviews</a>
-              <a class="d-flex justify-content-center align-items-center text-white btn btn-sm btn-primary px-3" href="sign_up.php" tabindex="-1" aria-disabled="true">Sign Up</a> -->
 
               <?php 
                 if(isset($_SESSION['user'])) {
                   if($_SESSION['user'] == 'jobseeker') {
                     ?>
-                      <a class="nav-link active" aria-current="page" href="index.php" id="home" onclick="handelNavItem('home')">Home</a>
+                      <a class="nav-link active" aria-current="page" href="jobseeker_home.php" id="home" onclick="handelNavItem('home')">Home</a>
                       <a class="nav-link" href="#" id="applid_jobs" onclick="handelNavItem('applid_jobs')">Applied Jobs</a>
-                      <a class="nav-link" href="#" id="profile" onclick="handelNavItem('profile')">Profile</a>
+                      <a class="nav-link" href="jobseeker_profile.php" id="profile" onclick="handelNavItem('profile')">Profile</a>
                       <a class="d-flex justify-content-center align-items-center text-white btn btn-sm btn-primary px-3" href="log_out.php" tabindex="-1" aria-disabled="true">Log Out</a>
                     <?php
                   } else if($_SESSION['user'] == 'recruiter') {
                     ?>
                       <a class="nav-link active" aria-current="page" href="recruiter_home.php" id="home" onclick="handelNavItem('home')">Home</a>
-                      <a class="nav-link" href="#" id="add" onclick="handelNavItem('add')">Add</a>
-                      <a class="nav-link" href="#" id="edit" onclick="handelNavItem('edit')">Edit</a>
-                      <a class="nav-link" href="#" id="profile" onclick="handelNavItem('profile')">Profile</a>
+                      <a class="nav-link" href="add_job.php" id="add" onclick="handelNavItem('add')">Add</a>
+                      <a class="nav-link" href="recruiter_all_jobs.php" id="edit" onclick="handelNavItem('edit')">My Jobs</a>
+                      <a class="nav-link" href="recruiter_profile.php" id="profile" onclick="handelNavItem('profile')">Profile</a>
                       <a class="d-flex justify-content-center align-items-center text-white btn btn-sm btn-primary px-3" href="log_out.php" tabindex="-1" aria-disabled="true">Log out</a>
                     <?php
                   }
@@ -71,12 +67,24 @@
 <script src="./Bootstrap/bootstrap.bundle.min.js"></script>
 <script>
   let currSelectedNav = $('#home');
+  let navItem
   function handelNavItem(id) {
-    navItem = $(`#${id}`);
-    // console.log(navItem.text());
-    currSelectedNav?.removeClass('active');
-    currSelectedNav = navItem;
-    currSelectedNav?.addClass('active');
+    let item;
+    $.ajax({
+      url: "set_nav_item.php",
+      method: 'POST',
+      data: {selectedNavitem : id},
+      success: function(data) {
+        // data = JSON.parse(data);
+        // console.log(data);
+      }
+    })
   }
+  navItem = $(`#<?php echo $_SESSION['navItem']?>`);
+  console.log('<?php echo $_SESSION['navItem']?>');
+  console.log("naItem", navItem.text());
+  currSelectedNav?.removeClass('active');
+  currSelectedNav = navItem;
+  currSelectedNav?.addClass('active');
 </script>
 </html>
